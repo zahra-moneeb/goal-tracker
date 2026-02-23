@@ -1,6 +1,8 @@
 import { ColorModeContext, useMode } from "./theme"
 import { CssBaseline, ThemeProvider } from "@mui/material"
 import { Route, Routes } from "react-router-dom"
+import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 import Dashboard from "./pages/Dashboard"
 import Goals from "./pages/Goals"
 import NewGoal from "./pages/NewGoal"
@@ -12,6 +14,13 @@ import MainLayout from "./layout/MainLayout"
 
 function App() {
   const [theme, colorMode] = useMode();
+    const { i18n } = useTranslation();
+
+  useEffect(() => {
+    document.documentElement.dir =
+      i18n.language === "fa" ? "rtl" : "ltr";
+  }, [i18n.language]);  
+
 
 
   return (

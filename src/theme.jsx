@@ -1,6 +1,8 @@
 import { createContext, useState, useMemo } from "react";
 import { createTheme } from "@mui/material/styles";
 import { Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
+
 
 
 export const tokens = (mode)=> ({
@@ -201,11 +203,17 @@ export const ColorModeContext = createContext({
 
 export const useMode = () => {
     const [mode, setMode] = useState("dark");
+    const { i18n } = useTranslation();
 
   const colorMode = useMemo(() => ({
         toggleColorMode: () => setMode((prev) => (prev === "light" ? "dark" : "light")),
     }), []);
 
-    const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+    const theme = useMemo(() =>
+         createTheme({...themeSettings(mode), 
+        direction: i18n.language === "fa" ? "rtl" : "ltr"}), 
+
+    [mode, i18n.language]);
+    
     return [theme, colorMode];
 }

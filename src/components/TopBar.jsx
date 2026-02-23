@@ -15,7 +15,7 @@ export default function TopBar() {
   const colorMode = useContext(ColorModeContext);
   return (
  
-      <AppBar position="fixed" color={colors.primary[400]} sx={{ zIndex: theme.zIndex.drawer + 1 }}>
+      <AppBar position="fixed" color={colors.blueAccent[500]} sx={{ zIndex: theme.zIndex.drawer + 1 }}>
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
         
         {/* سمت چپ: عنوان */}
@@ -46,12 +46,3 @@ export default function TopBar() {
     </AppBar>
   );
 };
-    // {/* // <AppBar */}
-    // //   position="fixed"
-    // //   sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-    // // >
-    // //   <Toolbar>
-
-    // //   </Toolbar>
-    // {/* // </AppBar> */}
-  
