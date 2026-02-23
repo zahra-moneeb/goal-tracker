@@ -1,8 +1,10 @@
 import { Drawer,List, ListItem, Toolbar, ListItemText } from "@mui/material"
 import { NavLink } from "react-router-dom";
+import { useTheme } from "@mui/material";
 
 
 export default function SideBar(){
+  const theme = useTheme();
     const drawerWidth = 240 ;
     return(
          <Drawer
@@ -10,7 +12,12 @@ export default function SideBar(){
       sx={{
         width: drawerWidth,
         flexShrink: 0,
-        "& .MuiDrawer-paper": { width: drawerWidth, boxSizing: "border-box" },
+        "& .MuiDrawer-paper":
+         { width: drawerWidth, 
+          boxSizing: "border-box",
+          backgroundColor: theme.palette.background.paper,
+
+         },
       }}
     >
       <Toolbar /> 
