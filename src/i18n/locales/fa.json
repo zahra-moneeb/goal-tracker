@@ -10,5 +10,12 @@
   "cancel": "لغو",
   "xp": "امتیاز",
   "streak": "استریک",
-  "language": "زبان"
+  "language": "زبان",
+  "edit": "ویرایش",
+  "delete": "حذف",
+  "deadline": "ددلاین",
+  "status": "وضعیت",
+  "active": "فعال",
+  "completed": "تکمیل شده"
+
 }
