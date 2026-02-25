@@ -1,9 +1,11 @@
 import { Card, CardContent, Typography, Button, Stack } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { tokens } from "../theme";
+import { useTheme } from "@mui/material";
 
 export default function GoalCard({ goal, onEdit, onDelete }) {
   const { t } = useTranslation();
+  const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   return (
@@ -34,8 +36,8 @@ export default function GoalCard({ goal, onEdit, onDelete }) {
             </Typography>
 
             <Stack direction="row" spacing={1} sx={{mt:2}}>
-                <Button variant="contained" size="small" onClick={()=> onEdit(goal)}>
-                    {t(goal.edit)}
+                <Button variant="contained" color={colors.primary[300]} size="small" onClick={()=> onEdit(goal)}>
+                    {t("edit")}
                 </Button>
 
                 <Button variant="outlined" color={colors.redAccent[500]} size="small" onClick={() => onDelete(goal.id)}>
