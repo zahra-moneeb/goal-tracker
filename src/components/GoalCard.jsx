@@ -8,11 +8,12 @@ export default function GoalCard({ goal, onEdit, onDelete }) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  if (!goal) return null;
   return (
     <Card sx={{minWidth: 275}}>
         <CardContent>
             <Typography variant="h6">
-                {goal.titl}
+                {goal.title}
             </Typography>
 
             <Typography variant="body2" color = {colors.greenAccent[300]}>
@@ -24,7 +25,7 @@ export default function GoalCard({ goal, onEdit, onDelete }) {
             </Typography> 
 
             <Typography>
-                {t("status")}: {t(goal.staus)}
+                {t("status")}: {t(goal.status)}
             </Typography>
 
             <Typography>
