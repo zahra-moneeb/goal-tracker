@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Container, Grid, Typography, Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import GoalDetails from "./GoalDetails";
 
-import GoalCard from "../components/GoalCard";
+import GoalList from "../components/GoalList";
 import GoalForm from "../components/GoalForm";
 
 export default function Goals() {
@@ -10,46 +11,47 @@ export default function Goals() {
 
   const defaultGoals = [
     {
-      id: 1,
-      title: "Learn React",
-      description: "Finish React course",
-      deadline: "2026-03-01",
-      status: "active",
-      xp: 50,
-      streak: 3,
-    },
+    id: 1,
+    title: "Learn React",
+    category: "React Course",
+    deadline: "2026-03-01",
+    status: "Active",   // Active / Paused / Completed
+    xp: 50,
+    streak: 3,
+    current: 5,         // تعداد روزهای طی شده
+    target: 30,         // تعداد روزهای هدف
+  },
   ];
 
   const [goals, setGoals] = useState(defaultGoals);
   const [showForm, setShowForm] = useState(false);
 
   
-  useEffect(() => {
-    try {
-      const savedGoals = localStorage.getItem("goals");
-      if (savedGoals) {
-        const parsed = JSON.parse(savedGoals) || [];
+ useEffect(() => {
+  try {
+    const savedGoals = localStorage.getItem("goals");
+
+    if (savedGoals) {
+      const parsed = JSON.parse(savedGoals);
+
+      if (Array.isArray(parsed)) {
         setGoals(parsed.length > 0 ? parsed : defaultGoals);
+      } else {
+        setGoals(defaultGoals);
       }
-    } catch (error) {
-      console.error("Failed to parse goals from localStorage:", error);
+
+    } else {
       setGoals(defaultGoals);
     }
-  }, []);
 
- 
-  useEffect(() => {
-    try {
-      localStorage.setItem("goals", JSON.stringify(goals));
-    } catch (error) {
-      console.error("Failed to save goals to localStorage:", error);
-    }
-  }, [goals]);
+  } catch (error) {
+    console.error("Failed to parse goals from localStorage:", error);
+    setGoals(defaultGoals);
+  }
+}, []);
 
-  const handleAddGoal = (newGoal) => {
-    setGoals((prev) => [...prev, newGoal]);
-    setShowForm(false); 
-  };
+
+
 
   // حذف کارت
   const handleDelete = (id) => setGoals((prev) => prev.filter((goal) => goal.id !== id));
@@ -57,8 +59,14 @@ export default function Goals() {
  
   const handleEdit = (goal) => console.log("Edit clicked:", goal);
 
+    const handleAddGoal = (newGoal) => {
+      console.log("NEW GOAL:", newGoal);
+    setGoals((prev) => [...prev, newGoal]);
+    setShowForm(false); 
+  };
+
   return (
-    <Container sx={{ mt: 4 }}>
+    <Container maxWidth={false} >
       <Typography variant="h4" sx={{ mb: 2 }}>
         {t("goals")}
       </Typography>
@@ -73,18 +81,15 @@ export default function Goals() {
       </Button>
 
       
-      {showForm && <GoalForm onAddGoal={handleAddGoal} />}
-
-     
-      <Grid container spacing={2}>
-
-        {goals.map((goal) => (
-
-          <Grid key={goal.id} >
-            <GoalCard goal={goal} onDelete={handleDelete} onEdit={handleEdit} />
-          </Grid>
-        ))}
+        {showForm && <GoalForm onAddGoal={handleAddGoal} />}
+       
+      <Grid  spacing={2}>
+        <Grid item xs={12}>
+          <GoalList goals={goals}  />
+           <GoalDetails goals={goals} onEdit={handleEdit} onDelete={handleDelete} />
+        </Grid>
       </Grid>
+ 
     </Container>
   );
 }

@@ -27,7 +27,7 @@ export default function MainLayout() {
         sx={{
           flexGrow: 1,
           p: 3,
-          width: `calc(100% - ${drawerWidth}px)`,
+          // width: `calc(100% - ${drawerWidth}px)`,
           mt: "64px",
         }}
       >
