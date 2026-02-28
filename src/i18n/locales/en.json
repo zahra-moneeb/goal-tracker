@@ -16,7 +16,9 @@
   "deadline": "Deadline",
   "status": "Status",
   "active": "Active",
-  "completed": "Completed"
+  "completed": "Completed",
+  "darkMode": "Dark Mode",
+  "lightMode": "Light Mode"
  
 
 }

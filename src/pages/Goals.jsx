@@ -77,8 +77,10 @@ export default function Goals() {
 
      
       <Grid container spacing={2}>
+
         {goals.map((goal) => (
-          <Grid key={goal.id} sm={6} md={4}>
+
+          <Grid key={goal.id} >
             <GoalCard goal={goal} onDelete={handleDelete} onEdit={handleEdit} />
           </Grid>
         ))}

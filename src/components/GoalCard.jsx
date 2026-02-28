@@ -10,7 +10,7 @@ export default function GoalCard({ goal, onEdit, onDelete }) {
 
   if (!goal) return null;
   return (
-    <Card sx={{minWidth: 275}}>
+    <Card sx={{minWidth: 100, backgroundColor: colors.blueAccent[900]}}>
         <CardContent>
             <Typography variant="h6">
                 {goal.title}

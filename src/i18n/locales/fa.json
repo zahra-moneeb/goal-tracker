@@ -16,6 +16,8 @@
   "deadline": "ددلاین",
   "status": "وضعیت",
   "active": "فعال",
-  "completed": "تکمیل شده"
+  "completed": "تکمیل شده",
+  "darkMode": "تم تیره",
+  "lightMode": "تم روشن"
 
 }

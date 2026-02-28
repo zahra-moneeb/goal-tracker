@@ -1,23 +1,39 @@
-import { Drawer,List, ListItem, Toolbar, ListItemText } from "@mui/material"
-import {FormControl,Select,MenuItem, InputLabel}  from "@mui/material";
+import { Drawer,List, ListItem, Toolbar, ListItemText,FormControl,Select,MenuItem, InputLabel, Typography } from "@mui/material"
+import { useTheme, IconButton, ListItemButton ,ListItemIcon } from "@mui/material";
+import { useContext } from "react";
+import { tokens, ColorModeContext } from "../theme";
 import { NavLink } from "react-router-dom";
-import { useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { ListItemButton } from "@mui/material";
-import { tokens } from "../theme";
+import { Box, Stack } from "@mui/system";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import FlagIcon from "@mui/icons-material/Flag";
+import CategoryIcon from "@mui/icons-material/Category";
+import SettingsIcon from "@mui/icons-material/Settings";
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';  
 
 
-export default function SideBar(){
+
+export default function SideBar({ mobileOpen, handleDrawerToggle }) {
    const { t, i18n } = useTranslation();
   const theme = useTheme();
   const drawerWidth = 240 ;
+   const colorMode = useContext(ColorModeContext);
   const colors = tokens(theme.palette.mode);
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
      return (
 
     <Drawer
         anchor={theme.direction === "rtl" ? "right" : "left"}
-        variant="permanent"
+        variant={isMobile ? "temporary" : "permanent"}
+        open={isMobile ? mobileOpen : true}
+        onClose={handleDrawerToggle}
+          ModalProps={{
+    keepMounted: true, // بهتر است برای performance
+  }}
+
         sx={{
           width: drawerWidth,
           flexShrink: 0,
@@ -32,15 +48,16 @@ export default function SideBar(){
 
       <List>
         {[
-          { text: "dashboard", path: "/dashboard" },
-          { text: "goals", path: "/goals" },
-          { text: "categories", path: "/categories" },
-          { text: "settings", path: "/settings" },
+            { text: "dashboard", path: "/dashboard", icon: <DashboardIcon /> },
+            { text: "goals", path: "/goals", icon: <FlagIcon /> },
+            { text: "categories", path: "/categories", icon: <CategoryIcon /> },
+            { text: "settings", path: "/settings", icon: <SettingsIcon /> },
         ].map((item) => (
           <ListItem disablePadding key={item.text}>
             <ListItemButton
               component={NavLink}
               to={item.path}
+              onClick={() => { if (isMobile) handleDrawerToggle(); }}
               sx={{
                 "&.active": {
                   fontWeight: "bold",
@@ -48,11 +65,14 @@ export default function SideBar(){
                 },
               }}
             >
+              <ListItemIcon sx={{color: colors.blueAccent[200]}}>{item.icon}</ListItemIcon> 
               <ListItemText primary={t(item.text)} />
             </ListItemButton>
           </ListItem>
+          
         ))}
       </List>
+
 
       <FormControl fullWidth sx={{ p: 1, mt: 5 }}>
             <InputLabel id="language-select-label">
@@ -69,6 +89,21 @@ export default function SideBar(){
               <MenuItem value="fa">فارسی</MenuItem>
             </Select>
       </FormControl>
+
+      <Box sx={{ p: 2, mt: 2 }}>
+        
+          <IconButton onClick={colorMode.toggleColorMode}>
+            <Stack direction="row" alignItems="center" gap={1}>
+                {theme.palette.mode === "dark" ? <DarkModeIcon /> : <LightModeIcon />}
+
+                <Typography variant="body2" >
+                {theme.palette.mode === "dark" ? t("darkMode") : t("lightMode")}
+                </Typography>
+              </Stack>
+          </IconButton>
+          
+        
+      </Box>
 </Drawer>
   );
 }
