@@ -1,4 +1,6 @@
 import React from "react";
+import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   TextField,
   Button,
@@ -12,40 +14,72 @@ import {
   FormControl,
 } from "@mui/material";
 
-export default function GoalForm({ onAddGoal }) {
-  const [title, setTitle] = React.useState("");
-  const [category, setCategory] = React.useState("");
-  const [goalType, setGoalType] = React.useState("daily");
-  const [target, setTarget] = React.useState("");
-  const [startDate, setStartDate] = React.useState("");
-  const [endDate, setEndDate] = React.useState("");
-  const [color, setColor] = React.useState("");
-  const [notes, setNotes] = React.useState("");
+export default function GoalForm({ goals, onAddGoal, onEdit }) {
+
+   const { id } = useParams();
+  const navigate = useNavigate();
+
+  const isEditMode = Boolean(id);
+
+  const existingGoal = goals?.find(g => g.id === Number(id));
+
+const [title, setTitle] = useState(existingGoal?.title || "");
+const [category, setCategory] = useState(existingGoal?.category || "");
+const [goalType, setGoalType] = useState(existingGoal?.goalType || "daily");
+const [target, setTarget] = useState(existingGoal?.target || "");
+const [startDate, setStartDate] = useState(existingGoal?.startDate || "");
+const [endDate, setEndDate] = useState(existingGoal?.endDate || "");
+const [color, setColor] = useState(existingGoal?.color || "");
+const [notes, setNotes] = useState(existingGoal?.notes || "");
+
+
+
+
 
   function handleSubmit(e) {
     e.preventDefault();
 
     if (!title.trim() || !category) return;
+    let goalData;
 
-    const newGoal = {
-      id: Date.now(),
-      title: title.trim(),
-      category,
-      goalType,
-      target: Number(target),
-      startDate,
-      endDate: endDate || null,
-      color,
-      notes,
-      status: "Active",
-      current: 0,
-      xp: 0,
-      streak: 0,
-    };
+if (isEditMode) {
+  goalData = {
+    ...existingGoal,  // keep everything old
+    title: title.trim(),
+    category,
+    goalType,
+    target: Number(target),
+    startDate,
+    endDate: endDate || null,
+    color,
+    notes,
+  };
 
-    onAddGoal(newGoal);
+  onEdit(goalData);
+  navigate(`/goals/${id}`);
 
-    // Reset form
+} else {
+  goalData = {
+    id: Date.now(),
+    title: title.trim(),
+    category,
+    goalType,
+    target: Number(target),
+    startDate,
+    endDate: endDate || null,
+    color,
+    notes,
+    status: "Active",
+    current: 0,
+    xp: 0,
+    streak: 0,
+  };
+
+  onAddGoal(goalData);
+  navigate("/goals");
+}
+
+ 
     setTitle("");
     setCategory("");
     setGoalType("daily");
@@ -56,16 +90,18 @@ export default function GoalForm({ onAddGoal }) {
     setNotes("");
   }
 
+
   return (
-    <Paper   sx={{
-    width: "100%",
-    maxWidth: { sm: 600, md: 800 },
-    mx: "auto",
-    px: { xs: 2, sm: 4 },
-    py: { xs: 2, sm: 3 },
-    mb: 4,
-  }}>
+          <Paper   sx={{
+          width: "100%",
+          maxWidth: { sm: 600, md: 800 },
+          mx: "auto",
+          px: { xs: 2, sm: 4 },
+          py: { xs: 2, sm: 3 },
+          mb: 4,
+        }}>
       <form onSubmit={handleSubmit}>
+         <h2>{isEditMode ? "Edit Goal" : "Add Goal"}</h2>
         <Stack spacing={3}>
           
           {/* Title */}
@@ -158,7 +194,7 @@ export default function GoalForm({ onAddGoal }) {
           />
 
           <Button type="submit" variant="contained" size="large">
-            Add Goal
+            {isEditMode ? "Update Goal" : "Add new goal"}
           </Button>
         </Stack>
       </form>

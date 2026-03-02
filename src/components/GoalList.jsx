@@ -9,6 +9,7 @@ List,
   Button,
   IconButton,
 } from "@mui/material";
+import {Link} from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import PauseIcon from "@mui/icons-material/Pause";
@@ -17,13 +18,13 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { tokens } from "../theme";
 import { useTheme } from "@mui/material";
 
-export default function GoalList({ goals, onEdit, onDelete }) {
+export default function GoalList({ goals,  onDelete }) {
 //   const { t } = useTranslation();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   if (!goals || goals.length === 0) return null;
-
+ 
 
 
   return (
@@ -101,11 +102,14 @@ export default function GoalList({ goals, onEdit, onDelete }) {
           flexWrap="wrap" // موبایل دکمه‌ها را به خط بعدی می‌برد
         >
       
-         <Button variant="outlined" size="small" sx={{ color: colors.blueAccent[200] }}>
+         {/* <Button variant="outlined" size="small" sx={{ color: colors.blueAccent[200] }}>
             view details
-          </Button>
-          <IconButton size="small" color="error">
-            <DeleteIcon />
+          </Button> */}
+
+          <Link to={`/goals/${goal.id}`}>view details</Link>
+          
+          <IconButton size="small" color="error" >
+            <DeleteIcon  onClick={() => onDelete(goal.id)}/>
           </IconButton>
         </Stack>
     </Stack>  

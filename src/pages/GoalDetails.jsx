@@ -9,6 +9,8 @@ List,
   Button,
   IconButton,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import PauseIcon from "@mui/icons-material/Pause";
@@ -22,16 +24,20 @@ export default function GoalDetails({ goals, onEdit, onDelete }) {
 //   const theme = useTheme();
 //   const colors = tokens(theme.palette.mode);
 
-  if (!goals || goals.length === 0) return null;
+  // if (!goals || goals.length === 0) return null;
+
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const goal = goals.find(g => g.id === Number(id));
 
 
-
-  return (
-    <List sx={{ width: "100%" }}>
-  {(goals || []).map((goal) => {
-    const progress = goal.target > 0 ? (goal.current / goal.target) * 100 : 0;
+  if (!goal) {
+    return <h2>Goal not found</h2>;
+  }
 
     return (
+        <List sx={{ width: "100%" }}>
       <ListItem
         key={goal.id}
         sx={{
@@ -64,13 +70,13 @@ export default function GoalDetails({ goals, onEdit, onDelete }) {
         </Stack>
 
         {/* 🔹 Progress */}
-        <Box sx={{ my: 2 }}>
+        {/* <Box sx={{ my: 2 }}>
           <LinearProgress
             variant="determinate"
             value={progress}
             sx={{ height: 8, borderRadius: 5 }}
           />
-        </Box>
+        </Box> */}
 
         {/* 🔹 Target Info + Status */}
         <Stack
@@ -107,7 +113,7 @@ export default function GoalDetails({ goals, onEdit, onDelete }) {
             Mark Progress
           </Button>
 
-          <IconButton size="small">
+          <IconButton size="small"  onClick={() => navigate(`/goals/edit/${goal.id}`)}>
             <EditIcon />
           </IconButton>
 
@@ -115,13 +121,12 @@ export default function GoalDetails({ goals, onEdit, onDelete }) {
             {goal.status === "Paused" ? <PlayArrowIcon /> : <PauseIcon />}
           </IconButton>
 
-          <IconButton size="small" color="error">
+          <IconButton size="small" color="error" onClick={() => onDelete(goal.id)}>
             <DeleteIcon />
           </IconButton>
         </Stack>
       </ListItem>
-    );
-  })}
+    
 </List>
   );
 }
