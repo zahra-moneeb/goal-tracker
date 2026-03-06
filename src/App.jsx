@@ -33,7 +33,11 @@ function App() {
     xp: 50,
     streak: 3,
     current: 5,         // تعداد روزهای طی شده
-    target: 30,         // تعداد روزهای هدف
+    target: 30,    
+    startDate: "2025-01-01",
+    endDate: "2025-03-01",
+    color: "#6C63FF",
+    notes: "Learning React basics",    
   },
   ];
    const [goals, setGoals] = useState(defaultGoals);
@@ -62,7 +66,21 @@ function App() {
   }
 }, []);
 
-  const handleDelete = (id) => setGoals((prev) => prev.filter((goal) => goal.id !== id));
+
+  const handleDelete = (id)=>{
+     const confirmDelete = window.confirm("Are you sure you want to delete this goal?");
+     if (confirmDelete){
+       setGoals((prev) => prev.filter((goal) => goal.id !== id))
+
+     }
+  }
+  // (id) => setGoals((prev) => prev.filter((goal) => goal.id !== id)
+     
+
+  // if (confirmDelete) {
+  //   onDelete(goal.id);
+  // }
+
 
  
  const handleEdit = (updatedGoal) => {
@@ -78,8 +96,78 @@ function App() {
     setGoals((prev) => [...prev, newGoal]);
     setShowForm(false); 
   };
+  
+  // handle progress bare
+const handleProgress = (id) => {
+  setGoals((prevGoals) =>
+    prevGoals.map((goal) => {
+      if (goal.id !== id) return goal;
 
+      if (goal.status === "Paused" || goal.status === "Completed") {
+      return goal;
+      }
+      // ❌ اگر قبلاً کامل شده، کاری نکن
+      if (goal.status === "Completed") return goal;
 
+      const newCurrent = goal.current + 1;
+      const reachedTarget = newCurrent >= goal.target;
+
+      const today = new Date().toDateString();
+
+      let newStreak = goal.streak || 0;
+      let newLastLoggedDate = goal.lastLoggedDate;
+
+      // 🔥 فقط برای daily streak حساب شود
+      if (goal.goalType === "daily") {
+        const lastDate = goal.lastLoggedDate
+          ? new Date(goal.lastLoggedDate).toDateString()
+          : null;
+
+        if (!lastDate) {
+          newStreak = 1;
+        } else {
+          const yesterday = new Date();
+          yesterday.setDate(yesterday.getDate() - 1);
+
+          if (lastDate === yesterday.toDateString()) {
+            newStreak += 1;
+          } else if (lastDate !== today) {
+            newStreak = 1;
+          }
+        }
+
+        newLastLoggedDate = today;
+      }
+
+      return {
+        ...goal,
+        current: reachedTarget ? goal.target : newCurrent, // جلو overflow
+        status: reachedTarget ? "Completed" : goal.status,
+        xp: (goal.xp || 0) + 20 + (reachedTarget ? 50 : 0), // 🎁 bonus XP
+        streak: newStreak,
+        lastLoggedDate: newLastLoggedDate,
+      };
+    })
+  );
+};
+
+//for toggle passed goals button
+function togglePause(goalId) {
+  setGoals(prevGoals =>
+    prevGoals.map(goal => {
+      if (goal.id !== goalId) return goal;
+
+   
+      if (goal.status === "Active") {
+        return { ...goal, status: "Paused" };
+      } else if (goal.status === "Paused") {
+        return { ...goal, status: "Active" };
+      } else {
+        return goal;
+      }
+    })
+  );
+}
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -91,10 +179,10 @@ function App() {
               <Route element={<MainLayout/>}>
                 <Route path="/" element={<Dashboard/>} />
                 <Route path="/dashboard" element={<Dashboard/>} />
-                <Route path="/goals" element={<Goals goals={goals} onDelete={handleDelete} onEdit={handleEdit} onAddGoal={handleAddGoal} setShowForm={setShowForm} showForm={showForm}/>} />
-                <Route path="/goals/edit/:id" element={<GoalForm goals={goals} onEdit={handleEdit} onAddGoal={handleAddGoal}/>}/>
-                <Route path="/goals/new" element={<NewGoal/>}/>
-                <Route path="/goals/:id" element={<GoalDetails goals={goals} onDelete={handleDelete} onEdit={handleEdit}/>}/>
+                <Route path="/goals" element={<Goals goals={goals} onDelete={handleDelete} onEdit={handleEdit} onAddGoal={handleAddGoal} setShowForm={setShowForm} showForm={showForm} addProgress={handleProgress} onToggle={togglePause }/>} />
+                <Route path="/goals/edit/:id" element={<GoalForm goals={goals} onEdit={handleEdit} onAddGoal={handleAddGoal} setShowForm={setShowForm}/>}/>
+                <Route path="/goals/new" element={<GoalForm onAddGoal={handleAddGoal} onEdit={handleEdit} setShowForm={setShowForm}/>}/>
+                <Route path="/goals/:id" element={<GoalDetails goals={goals} onDelete={handleDelete} onEdit={handleEdit} addProgress={handleProgress} onToggle={togglePause }/>}/>
                 <Route path="/categories" element={<Categories/>}/>
                 <Route path="/settings" element={<Settings/>}/>
               <Route path="*" element={<NotFound/>}/>
@@ -105,7 +193,7 @@ function App() {
         </div>
 
       </ThemeProvider>
-    </ColorModeContext.Provider>
+    </ColorModeContext.Provider> 
    
   )
 }

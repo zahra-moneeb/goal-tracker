@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import {useTranslation} from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   TextField,
@@ -14,10 +15,11 @@ import {
   FormControl,
 } from "@mui/material";
 
-export default function GoalForm({ goals, onAddGoal, onEdit }) {
+export default function GoalForm({ goals, onAddGoal, onEdit , setShowForm}) {
 
    const { id } = useParams();
   const navigate = useNavigate();
+  const {t} = useTranslation();
 
   const isEditMode = Boolean(id);
 
@@ -53,6 +55,7 @@ if (isEditMode) {
     endDate: endDate || null,
     color,
     notes,
+    lastLoggedDate: null,
   };
 
   onEdit(goalData);
@@ -73,6 +76,7 @@ if (isEditMode) {
     current: 0,
     xp: 0,
     streak: 0,
+    lastLoggedDate: null,
   };
 
   onAddGoal(goalData);
@@ -101,12 +105,12 @@ if (isEditMode) {
           mb: 4,
         }}>
       <form onSubmit={handleSubmit}>
-         <h2>{isEditMode ? "Edit Goal" : "Add Goal"}</h2>
+         <h2>{isEditMode ? t("editGoal") : t("addGoal")}</h2>
         <Stack spacing={3}>
           
           {/* Title */}
           <TextField
-            label="Title"
+            label={t("title")}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
@@ -116,35 +120,35 @@ if (isEditMode) {
           {/* Category */}
           <TextField
             select
-            label="Category"
+            label={t("category")}
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             required
             fullWidth
           >
-            <MenuItem value="Health">Health</MenuItem>
-            <MenuItem value="Study">Study</MenuItem>
-            <MenuItem value="Work">Work</MenuItem>
-            <MenuItem value="Personal">Personal</MenuItem>
+            <MenuItem value="Health">{t("health")}</MenuItem>
+            <MenuItem value="Study">{t("study")}</MenuItem>
+            <MenuItem value="Work">{t("work")}</MenuItem>
+            <MenuItem value="Personal">{t("personal")}</MenuItem>
           </TextField>
 
           {/* Goal Type */}
           <FormControl>
-            <FormLabel>Goal Type</FormLabel>
+            <FormLabel>{t("goalType")}</FormLabel>
             <RadioGroup
               row
               value={goalType}
               onChange={(e) => setGoalType(e.target.value)}
             >
-              <FormControlLabel value="daily" control={<Radio />} label="Daily" />
-              <FormControlLabel value="count" control={<Radio />} label="Count-based" />
-              <FormControlLabel value="time" control={<Radio />} label="Time-based" />
+              <FormControlLabel value="daily" control={<Radio />} label={t("daily")} />
+              <FormControlLabel value="count" control={<Radio />} label={t("countBased")} />
+              <FormControlLabel value="time" control={<Radio />} label={t("timeBased")} />
             </RadioGroup>
           </FormControl>
 
           {/* Target */}
           <TextField
-            label="Target"
+            label={t("target")}
             type="number"
             value={target}
             onChange={(e) => setTarget(e.target.value)}
@@ -192,10 +196,15 @@ if (isEditMode) {
             onChange={(e) => setNotes(e.target.value)}
             fullWidth
           />
-
+      <Stack direction="row">
           <Button type="submit" variant="contained" size="large">
-            {isEditMode ? "Update Goal" : "Add new goal"}
+            {isEditMode ? t("editGoal") : t("addGoal")}
           </Button>
+
+          <Button onClick={()=> setShowForm(false)}>
+              {t("cancel")}
+          </Button>
+      </Stack>    
         </Stack>
       </form>
     </Paper>

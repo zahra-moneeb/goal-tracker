@@ -18,7 +18,51 @@
   "active": "Active",
   "completed": "Completed",
   "darkMode": "Dark Mode",
-  "lightMode": "Light Mode"
+  "lightMode": "Light Mode",
+  "viewDetails": "View Details",
+  "paused": "Paused",
+  "target": "Target",
+  "progress": "Progress",
+  "sessions": "Sessions",
+  "noGoals": "No goals found",
+  "search": "Search goals",
+  "filter": "Filter",
+
+  "goalDetails": "Goal Details",
+  "category": "Category",
+  "goalType": "Goal Type",
+  "countBased": "Count-based",
+  "numeric": "Numeric",
+  "createdOn": "Created on",
+  "startedOn": "Started on",
+  "endDate": "End date",
+  "addProgress": "Add Progress",
+  "editGoal": "Edit Goal",
+  "markComplete": "Mark Complete",
+  "pause": "Pause",
+  "resume": "Resume",
+  "progressHistory": "Progress History",
+  "notSet": "Not set",
+  "goalNotFound": "Goal not found",
+  "notes": "Notes",
+  "all": "All",
+  "newest": "Newest",
+  "day": "day",
+  "searchGoals": "Search goals...",
+  "health": "Health",
+  "study": "Study",
+  "work": "Work",
+  "personal": "Personal",
+  "daily": "Daily",
+  "timeBased": "Time-based",
+  "bake": "Back"
+  
+
+ 
+
+
+
+  
  
 
 }

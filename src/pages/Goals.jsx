@@ -6,7 +6,7 @@ import GoalDetails from "./GoalDetails";
 import GoalList from "../components/GoalList";
 import GoalForm from "../components/GoalForm";
 
-export default function Goals({ goals, onDelete,  setShowForm, showForm , onAddGoal,}) {
+export default function Goals({ goals, onDelete,  setShowForm, showForm , onAddGoal, addProgress, onToggle }) {
   const { t } = useTranslation();
 
 
@@ -16,7 +16,7 @@ export default function Goals({ goals, onDelete,  setShowForm, showForm , onAddG
         {t("goals")}
       </Typography>
 
-      
+       
       <Button
         variant="contained"
         sx={{ mb: 3 }}
@@ -30,7 +30,7 @@ export default function Goals({ goals, onDelete,  setShowForm, showForm , onAddG
        
       <Grid  spacing={2}>
         <Grid item xs={12}> 
-          <GoalList goals={goals} onDelete={onDelete}  />
+          <GoalList goals={goals} onDelete={onDelete} showForm={setShowForm} addProgress={addProgress} onToggle={onToggle}  />
            {/* <GoalDetails goals={goals} onEdit={handleEdit} onDelete={handleDelete} /> */}
         </Grid>
       </Grid>
