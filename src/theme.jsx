@@ -131,7 +131,7 @@ const themeSettings = (mode) => {
             mode: mode,
             ...(mode === "dark" ? {
                 primary: {
-                    main: colors.primary[500],
+                    main: "#7b5cff",
                 },
                 secondary: {
                     main: colors.greenAccent[500],
@@ -142,11 +142,16 @@ const themeSettings = (mode) => {
                     light: colors.gray[100],
                 },
                 background: {
-                    default: colors.primary[500],
+                    default: "#05020f",
+                    paper: "#0b0618",
+                },
+                text: {
+                    primary: "#f9f5ff",
+                    secondary: "#c7c2ff",
                 },
             } : {
                 primary: {
-                    main: colors.primary[100],
+                    main: "#5e35b1",
                 },
                 secondary: {
                     main: colors.greenAccent[500],
@@ -157,12 +162,17 @@ const themeSettings = (mode) => {
                     light: colors.gray[100],
                 },
                 background: {
-                    default: "#fcfcfc",
-                }
+                    default: "#faf5ff",
+                    paper: "#ffffff",
+                },
+                text: {
+                    primary: "#1b1033",
+                    secondary: "#5c5470",
+                },
             }),
 
          },
-         Typography: {
+         typography: {
             fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
             fontSize: 12,
             h1:{
@@ -202,7 +212,7 @@ export const ColorModeContext = createContext({
 });
 
 export const useMode = () => {
-    const [mode, setMode] = useState("dark");
+    const [mode, setMode] = useState("light");
     const { i18n } = useTranslation();
 
   const colorMode = useMemo(() => ({

@@ -1,7 +1,7 @@
 import { Drawer,List, ListItem, Toolbar, ListItemText,FormControl,Select,MenuItem, InputLabel, Typography } from "@mui/material"
 import { useTheme, IconButton, ListItemButton ,ListItemIcon } from "@mui/material";
 import { useContext } from "react";
-import { tokens, ColorModeContext } from "../theme";
+import { tokens, ColorModeContext } from "../../theme";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Box, Stack } from "@mui/system";
@@ -31,7 +31,7 @@ export default function SideBar({ mobileOpen, handleDrawerToggle }) {
         open={isMobile ? mobileOpen : true}
         onClose={handleDrawerToggle}
           ModalProps={{
-    keepMounted: true, // بهتر است برای performance
+    keepMounted: true, 
   }}
 
         sx={{
@@ -40,7 +40,10 @@ export default function SideBar({ mobileOpen, handleDrawerToggle }) {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
-            backgroundColor: theme.palette.background.paper,
+            background: theme.palette.mode === "dark"
+              ? "linear-gradient(180deg, #1b1033 0%, #0b0618 100%)"
+              : "linear-gradient(180deg, #f4f0ff 0%, #ece4ff 100%)",
+            color: theme.palette.mode === "dark" ? "#f9f5ff" : "#1b1033",
           },
         }}
     >
@@ -59,14 +62,45 @@ export default function SideBar({ mobileOpen, handleDrawerToggle }) {
               to={item.path}
               onClick={() => { if (isMobile) handleDrawerToggle(); }}
               sx={{
+                borderRadius: 2,
+                mx: 1,
+                my: 0.5,
+                "&:hover": {
+                  backgroundColor:
+                    theme.palette.mode === "dark"
+                      ? "rgba(255,255,255,0.06)"
+                      : "rgba(27,16,51,0.06)",
+                },
                 "&.active": {
-                  fontWeight: "bold",
-                  color: colors.blueAccent[500],
+                  fontWeight: 600,
+                  backgroundColor:
+                    theme.palette.mode === "dark"
+                      ? "rgba(124,77,255,0.22)"
+                      : "rgba(103,58,183,0.16)",
+                  color: "#ffffff",
                 },
               }}
             >
-              <ListItemIcon sx={{color: colors.blueAccent[200]}}>{item.icon}</ListItemIcon> 
-              <ListItemText primary={t(item.text)} />
+              <ListItemIcon
+                sx={{
+                  minWidth: 40,
+                  color:
+                    theme.palette.mode === "dark"
+                      ? "#d0bcff"
+                      : colors.blueAccent[400],
+                }}
+              >
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText
+                primaryTypographyProps={{
+                  sx: {
+                    fontSize: 14,
+                    letterSpacing: 0.3,
+                  },
+                }}
+                primary={t(item.text)}
+              />
             </ListItemButton>
           </ListItem>
           
@@ -91,18 +125,37 @@ export default function SideBar({ mobileOpen, handleDrawerToggle }) {
       </FormControl>
 
       <Box sx={{ p: 2, mt: 2 }}>
-        
-          <IconButton onClick={colorMode.toggleColorMode}>
-            <Stack direction="row" alignItems="center" gap={1}>
-                {theme.palette.mode === "dark" ? <DarkModeIcon /> : <LightModeIcon />}
+        <IconButton
+          onClick={colorMode.toggleColorMode}
+          sx={{
+            width: "100%",
+            justifyContent: "flex-start",
+            borderRadius: 2,
+            px: 1.5,
+            color: "inherit",
+            "&:hover": {
+              backgroundColor:
+                theme.palette.mode === "dark"
+                  ? "rgba(255,255,255,0.08)"
+                  : "rgba(27,16,51,0.06)",
+            },
+          }}
+        >
+          <Stack direction="row" alignItems="center" gap={1.2}>
+            {theme.palette.mode === "dark" ? (
+              <DarkModeIcon sx={{ fontSize: 20 }} />
+            ) : (
+              <LightModeIcon sx={{ fontSize: 20 }} />
+            )}
 
-                <Typography variant="body2" >
-                {theme.palette.mode === "dark" ? t("darkMode") : t("lightMode")}
-                </Typography>
-              </Stack>
-          </IconButton>
-          
-        
+            <Typography
+              variant="body2"
+              sx={{ fontWeight: 500, letterSpacing: 0.3 }}
+            >
+              {theme.palette.mode === "dark" ? t("darkMode") : t("lightMode")}
+            </Typography>
+          </Stack>
+        </IconButton>
       </Box>
 </Drawer>
   );

@@ -22,6 +22,7 @@ import {
   Check,
 
 } from "@mui/icons-material";
+import History from "../components/goals/History";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import ChecklistIcon from '@mui/icons-material/Checklist';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -59,8 +60,35 @@ function getDefaultAmount(goal) {
       : 0;
 
   return (
-    <Box p={isMobile ? 2 : 4}>
-      <Card sx={{ borderRadius: 4, p: isMobile ? 2 : 4, boxShadow: 4 }}>
+    <Box
+      p={isMobile ? 2 : 4}
+      sx={{
+        background:
+          theme.palette.mode === "dark"
+            ? "radial-gradient(circle at top, #3c096c 0%, #0b0618 45%, #02010a 100%)"
+            : "radial-gradient(circle at top, #f3e5f5 0%, #ede7f6 45%, #ffffff 100%)",
+        borderRadius: 4,
+      }}
+    >
+      <Card
+        sx={{
+          borderRadius: 4,
+          p: isMobile ? 2 : 4,
+          boxShadow:
+            theme.palette.mode === "dark"
+              ? "0 22px 50px rgba(0,0,0,0.85)"
+              : "0 10px 30px rgba(15,23,42,0.12)",
+          border: `1px solid ${
+            theme.palette.mode === "dark"
+              ? "rgba(255,255,255,0.12)"
+              : "rgba(0,0,0,0.05)"
+          }`,
+          background:
+            theme.palette.mode === "dark"
+              ? "linear-gradient(135deg, #1b1033 0%, #0b0618 60%, #02010a 100%)"
+              : "linear-gradient(135deg, #ffffff 0%, #f5f7fb 60%, #ede7f6 100%)",
+        }}
+      >
         
    
         <Stack
@@ -70,7 +98,8 @@ function getDefaultAmount(goal) {
         >
           <Avatar
             sx={{
-              bgcolor: "#6C63FF",
+              bgcolor:
+                theme.palette.mode === "dark" ? "#9d4edd" : "#5e35b1",
               width: 60,
               height: 60,
             }}
@@ -84,7 +113,18 @@ function getDefaultAmount(goal) {
             </Typography>
 
             <Stack direction="row" spacing={1} mt={1}>
-              <Chip label={goal.category} size="small" />
+              <Chip
+                label={goal.category}
+                size="small"
+                sx={{
+                  bgcolor:
+                    theme.palette.mode === "dark"
+                      ? "rgba(157, 78, 221, 0.18)"
+                      : "rgba(94, 53, 177, 0.08)",
+                  color:
+                    theme.palette.mode === "dark" ? "#e0c3ff" : "#4a148c",
+                }}
+              />
               <Chip
                 label={goal.status}
                 size="small"
@@ -126,6 +166,15 @@ function getDefaultAmount(goal) {
                 height: 10,
                 borderRadius: 5,
                 mt: 2,
+                backgroundColor:
+                  theme.palette.mode === "dark"
+                    ? "rgba(148, 163, 184, 0.35)"
+                    : "rgba(148, 163, 184, 0.25)",
+                "& .MuiLinearProgress-bar": {
+                  borderRadius: 5,
+                  background:
+                    "linear-gradient(90deg, #7b5cff, #ff6f91, #ffb347)",
+                },
               }}
             />
           </Box>
@@ -156,16 +205,18 @@ function getDefaultAmount(goal) {
         >
           <Button
             variant="contained"
+            color="primary"
             sx={{ ml: 1 }}
-            startIcon={<Add sx={{ ml: 1 }}/>}
-            onClick={()=> addProgress(goal.id)}
+            startIcon={<Add sx={{ ml: 1 }} />}
+            onClick={() => addProgress(goal.id)}
           >
             {t("addProgress")}
           </Button>
 
           <Button
             variant="outlined"
-            startIcon={<Edit sx={{ ml: 1 }}/>}
+            color="inherit"
+            startIcon={<Edit sx={{ ml: 1 }} />}
             onClick={() => navigate(`/goals/edit/${goal.id}`)}
           >
             {t("editGoal")}
@@ -173,41 +224,43 @@ function getDefaultAmount(goal) {
      <Tooltip title={goal.status === "Paused" ? "Goal Paused – Cannot add progress" : "Mark Complete"}>        
           <Button
             variant="outlined"
+            color="inherit"
             onClick={() => addProgress(goal.id, getDefaultAmount(goal))}
-            startIcon={<Check sx={{ ml: 1 }}/>}
+            startIcon={<Check sx={{ ml: 1 }} />}
           >
             {t("markComplete")}
           </Button>
      </Tooltip>          
           <Button
             variant="outlined"
-            startIcon={<Pause sx={{ ml: 1 }}/>}
-             onClick={() => onToggle(goal.id)}
+            color="inherit"
+            startIcon={<Pause sx={{ ml: 1 }} />}
+            onClick={() => onToggle(goal.id)}
           >
             {goal.status === "Paused" ? t("resume") : t("pause")}
           </Button>
 
           <Button
-            
-             color="error"
+            color="error"
             variant="outlined"
             startIcon={<DeleteIcon sx={{ ml: 1 }} />}
-            onClick={() => onDelete(goal.id)}
+            onClick={() => onDelete(goal.id, goal.title)}
           >
             {t("delete")}
           </Button>
 
-         <Button
-            
-            
+          <Button
             variant="outlined"
-            startIcon={< KeyboardBackspaceIcon sx={{ ml: 1 }} />}
+            color="inherit"
+            startIcon={<KeyboardBackspaceIcon sx={{ ml: 1 }} />}
             onClick={() => navigate(-1)}
           >
             {t("back")}
           </Button>
         </Stack>
       </Card>
+
+      <History history={goal.history} />
     </Box>
   );
 }

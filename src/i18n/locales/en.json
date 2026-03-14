@@ -55,7 +55,23 @@
   "personal": "Personal",
   "daily": "Daily",
   "timeBased": "Time-based",
-  "bake": "Back"
+  "bake": "Back",
+  "completedGoals": "Completed Goals",
+  "archivedGoals": "Archived Goals",
+  "archive": "Archive",
+  "restore": "Restore",
+  "confirmDelete": "Are you sure you want to delete this goal?",
+  "confirmArchive": "Are you sure you want to archive this goal?",
+  "noCompletedGoals": "No completed goals found",
+  "overallCompletion": "Overall Completion",
+  "totalXP": "Total XP",
+  "days": "days",
+  "addGoalDescription": "Create a new goal and start tracking progress",
+  "viewGoalsDescription": "View all your active and completed goals",
+  "view": "View",
+  "allGoals": "All Goals"
+ 
+
   
 
  

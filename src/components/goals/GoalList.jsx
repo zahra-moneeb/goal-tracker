@@ -1,16 +1,10 @@
 import React, { useState, useMemo } from "react";
-import GoalForm from "./GoalForm";
 import {
   Box,
   Typography,
   TextField,
   Tabs,
   Tab,
-  Card,
-  CardContent,
-  LinearProgress,
-  Chip,
-  IconButton,
   Stack,
   Button,
   MenuItem,
@@ -19,51 +13,45 @@ import {
   FormControl,
   useTheme,
   useMediaQuery,
-  Tooltip,
+  Paper,
+
 } from "@mui/material";
 
 import {
   Add,
-  Edit,
-  Visibility,
-  Pause,
-  PlayArrow,
   Search,
-   AddCircleOutline ,
 } from "@mui/icons-material";
-
-import DeleteIcon from '@mui/icons-material/Delete';
-import DetailsIcon from '@mui/icons-material/Details';
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import GoalCard from "./GoalCard";
 
 // Helper for category colors
-const getCategoryColor = (category) => {
-  switch (category) {
-    case "React Course":
-      return "#1976d2";
-    case "Fitness":
-      return "#2e7d32";
-    case "Study":
-      return "#9c27b0";
-    default:
-      return "#9e9e9e";
-  }
-};
+// const getCategoryColor = (category) => {
+//   switch (category) {
+//     case "React Course":
+//       return "#1976d2";
+//     case "Fitness":
+//       return "#2e7d32";
+//     case "Study":
+//       return "#9c27b0";
+//     default:
+//       return "#9e9e9e";
+//   }
+// };
 
 // Helper for status icon
-const getStatusIcon = (status) => {
-  switch (status.toLowerCase()) {
-    case "active":
-      return "🟢";
-    case "paused":
-      return "⏸";
-    case "completed":
-      return "✔";
-    default:
-      return "ℹ️";
-  }
-};
+// const getStatusIcon = (status) => {
+//   switch (status.toLowerCase()) {
+//     case "active":
+//       return "🟢";
+//     case "paused":
+//       return "⏸";
+//     case "completed":
+//       return "✔";
+//     default:
+//       return "ℹ️";
+//   }
+// };
 
 export default function GoalList({ goals, onDelete , addProgress, onToggle}) {
   const navigate = useNavigate();
@@ -115,69 +103,117 @@ export default function GoalList({ goals, onDelete , addProgress, onToggle}) {
   }, [goals, tab, search, sort]);
 
   return (
-    <Box p={isMobile ? 1 : 3}>
-      {/* Search ,  New Goal */}
-      <Stack
-        direction={isMobile ? "column" : "row"}
-        spacing={2}
-        justifyContent="space-between"
-        mb={3}
+    <Box
+      p={isMobile ? 1.4 : 3}
+      sx={{
+        background:
+          theme.palette.mode === "dark"
+            ? "radial-gradient(circle at top, #3c096c 0%, #0b0618 45%, #02010a 100%)"
+            : "radial-gradient(circle at top, #f3e5f5 0%, #ede7f6 45%, #ffffff 100%)",
+        borderRadius: 3,
+      }}
+    >
+      <Paper
+        elevation={0}
+        sx={{
+          mb: 3,
+          p: isMobile ? 1.5 : 2,
+          borderRadius: 3,
+          border: `1px solid ${theme.palette.divider}`,
+          background:
+            theme.palette.mode === "light"
+              ? "rgba(253, 251, 255, 0.96)"
+              : "rgba(12, 5, 32, 0.9)",
+          backdropFilter: "blur(10px)",
+        }}
       >
-        <TextField
-          fullWidth
-          size={isMobile ? "small" : "medium"}
-          placeholder={t("searchGoals")}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          InputProps={{
-            startAdornment: <Search sx={{ mr: 1 }} />,
-          }}
-        />
-
-        <Button
-          variant="contained"
-          size={isMobile ? "small" : "medium"}
-          startIcon={<Add />}
-          onClick={() => navigate("/goals/new") }
+        <Stack
+          direction={isMobile ? "column" : "row"}
+          spacing={isMobile ? 1.5 : 2}
+          justifyContent="space-between"
+          alignItems={isMobile ? "stretch" : "center"}
         >
-          {isMobile ? "" : t("addGoal")}
-        </Button>
-      </Stack>
+          <TextField
+            fullWidth
+            size={isMobile ? "small" : "medium"}
+            placeholder={t("searchGoals")}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            InputProps={{
+              startAdornment: <Search sx={{ mr: 1, color: "text.secondary" }} />,
+            }}
+          />
 
-      {/* Tabs */}
-      <Tabs
-        value={tab}
-        onChange={(e, v) => setTab(v)}
-        variant="scrollable"
-        scrollButtons="auto"
-        sx={{ mb: 2 }}
-      >
-        <Tab value="all" label={t("all")} />
-        <Tab value="active" label={t("active")} />
-        <Tab value="completed" label={t("completed")} />
-        <Tab value="paused" label={t("paused")} />
-      </Tabs>
+          <Stack
+            direction="row"
+            spacing={1.5}
+            justifyContent="flex-end"
+            flexShrink={0}
+          >
+            <FormControl
+              size={isMobile ? "small" : "medium"}
+              sx={{ minWidth: 150 }}
+            >
+              <InputLabel>{t("sort")}</InputLabel>
+              <Select
+                value={sort}
+                label={t("sort")}
+                onChange={(e) => setSort(e.target.value)}
+              >
+                <MenuItem value="newest">{t("newest")}</MenuItem>
+                <MenuItem value="progress">{t("progress")}</MenuItem>
+                <MenuItem value="category">{t("category")}</MenuItem>
+              </Select>
+            </FormControl>
 
-      {/* Sort */}
-      <FormControl
-        size={isMobile ? "small" : "medium"}
-        sx={{ mb: 3, minWidth: 150 }}
-      >
-        <InputLabel>Sort</InputLabel>
-        <Select
-          value={sort}
-          label="Sort"
-          onChange={(e) => setSort(e.target.value)}
+            <Button
+              variant="contained"
+              size={isMobile ? "small" : "medium"}
+              startIcon={<Add />}
+              onClick={() => navigate("/goals/new") }
+            >
+              {isMobile ? t("add") : t("addGoal")}
+            </Button>
+          </Stack>
+        </Stack>
+
+        <Tabs
+          value={tab}
+          onChange={(e, v) => setTab(v)}
+          variant="scrollable"
+          scrollButtons="auto"
+          sx={{ mt: 2 }}
         >
-          <MenuItem value="newest">{t("newest")}</MenuItem>
-          <MenuItem value="progress">{t("progress")}</MenuItem>
-           <MenuItem value="category">{t("category")}</MenuItem>
-        </Select>
-      </FormControl>
+          <Tab value="all" label={t("all")} />
+          <Tab value="active" label={t("active")} />
+          <Tab value="completed" label={t("completed")} />
+          <Tab value="paused" label={t("paused")} />
+        </Tabs>
+      </Paper>
 
-      {/* Goal Cards */}
-      
       <Stack spacing={isMobile ? 1.2 : 2}>
+        {filteredGoals.length === 0 ? (
+          
+          <Typography textAlign="center" mt={5}>
+            {t("noGoals")}
+          </Typography>
+        ) : (
+
+          filteredGoals.map((goal) => {
+            const percent = Math.min(
+              (goal.current / goal.target) * 100,
+              100
+            );
+            return(
+                 <GoalCard key={goal.id} goal={goal}  onDelete={onDelete }  addProgress={ addProgress}  onToggle={onToggle} percent={percent}/>
+            );
+          })  
+           )}
+      </Stack>      
+      
+      {/* <GoalCard goals={goals} filteredGoals={filteredGoals} onDelete={onDelete }  addProgress={ addProgress}  onToggle={onToggle} /> */}
+   
+      {/* <Stack spacing={isMobile ? 1.2 : 2}>
         {filteredGoals.length === 0 ? (
           
           <Typography textAlign="center" mt={5}>
@@ -206,7 +242,7 @@ export default function GoalList({ goals, onDelete , addProgress, onToggle}) {
                   p: 0,
                 }}
               >
-                {/* Color strip */}
+               
                 <Box
                   sx={{
                     width: 6,
@@ -214,7 +250,7 @@ export default function GoalList({ goals, onDelete , addProgress, onToggle}) {
                   }}
                 />
 
-                {/* Card Content */}
+              
                 <CardContent sx={{ flex: 1, p: isMobile ? 0.8 : 2 }}>
                   <Stack
                     direction="row"
@@ -222,7 +258,7 @@ export default function GoalList({ goals, onDelete , addProgress, onToggle}) {
                     justifyContent="space-between"
                     spacing={isMobile ? 0.5 : 2}
                   >
-                    {/* Left Section */}
+                   
                     <Box flex={1} minWidth={0}>
                       <Typography
                         variant={isMobile ? "body2" : "h6"}
@@ -245,7 +281,7 @@ export default function GoalList({ goals, onDelete , addProgress, onToggle}) {
                         </Typography>
                       )}
 
-                      {/* Progress */}
+                 
                       <LinearProgress
                         variant="determinate"
                         value={percent}
@@ -256,7 +292,7 @@ export default function GoalList({ goals, onDelete , addProgress, onToggle}) {
                         }}
                       />
 
-                      {/* Streak + XP */}
+                 
                       <Stack
                         direction="row"
                         spacing={1}
@@ -278,7 +314,7 @@ export default function GoalList({ goals, onDelete , addProgress, onToggle}) {
                     </Box>
 
                     {/* Status */}
-                    {isMobile ? (
+                    {/* {isMobile ? (
                       <Box sx={{ fontSize: 16 }}>{getStatusIcon(goal.status)}</Box>
                     ) : (
                       <Chip
@@ -294,7 +330,7 @@ export default function GoalList({ goals, onDelete , addProgress, onToggle}) {
                       />
                     )}
 
-                    {/* Actions */}
+                  
                     <Stack direction="row" spacing={isMobile ? 0.5 : 1}>
                       <Button
                         startIcon = {<DetailsIcon sx={{ ml: 1 }}/>}
@@ -339,7 +375,7 @@ export default function GoalList({ goals, onDelete , addProgress, onToggle}) {
             );
           })
         )}
-      </Stack>
+      </Stack>    */} 
     </Box>
   );
 }

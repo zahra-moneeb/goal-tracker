@@ -55,6 +55,20 @@
   "personal": "شخصی",
   "daily": "روزانه",
   "timeBased": "مبتنی بر زمان",
-  "bake": "برگشت"
-
+  "bake": "برگشت",
+  "completedGoals": "اهداف تکمیل شده",
+  "archivedGoals": "اهداف آرشیو شده",
+  "archive": "آرشیو",
+  "restore": "بازیابی",
+  "confirmDelete": "آیا مطمئن هستید که می‌خواهید این هدف را حذف کنید؟",
+  "confirmArchive": "آیا مطمئن هستید که می‌خواهید این هدف را آرشیو کنید؟",
+  "noCompletedGoals": "هیچ هدف تکمیل شده‌ای یافت نشد",
+  "noArchivedGoals": "هیچ هدف آرشیو شده‌ای یافت نشد",
+  "overallCompletion": "درصد تکمیل کلی",
+  "totalXP": "کل امتیاز",
+  "days": "روز",
+  "addGoalDescription": "یک هدف جدید ایجاد کنید و شروع به پیگیری پیشرفت کنید",
+ "viewGoalsDescription": "تمام اهداف فعال و تکمیل شده خود را ببینید",
+ "view": "مشاهده",
+ "allGoals": "تمام اهداف"
 }

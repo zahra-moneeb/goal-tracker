@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
-import SideBar from "../components/Sidebar";
+import SideBar from "../components/topSideBars/Sidebar";
 import { Box, Toolbar } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
-import TopBar from "../components/TopBar";
+import TopBar from "../components/topSideBars/TopBar";
 
 const drawerWidth = 240;
 

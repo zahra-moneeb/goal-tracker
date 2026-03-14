@@ -1,6 +1,5 @@
-import React from "react";
-import { useState } from "react";
-import {useTranslation} from "react-i18next";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   TextField,
@@ -13,31 +12,38 @@ import {
   Radio,
   FormLabel,
   FormControl,
+  Typography,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 
-export default function GoalForm({ goals, onAddGoal, onEdit , setShowForm}) {
-
-   const { id } = useParams();
+export default function GoalForm({ goals, onAddGoal, onEdit, setShowForm }) {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const isEditMode = Boolean(id);
 
-  const existingGoal = goals?.find(g => g.id === Number(id));
+  const existingGoal = goals?.find((g) => g.id === Number(id));
 
-const [title, setTitle] = useState(existingGoal?.title || "");
-const [category, setCategory] = useState(existingGoal?.category || "");
-const [goalType, setGoalType] = useState(existingGoal?.goalType || "daily");
-const [target, setTarget] = useState(existingGoal?.target || "");
-const [startDate, setStartDate] = useState(existingGoal?.startDate || "");
-const [endDate, setEndDate] = useState(existingGoal?.endDate || "");
-const [color, setColor] = useState(existingGoal?.color || "");
-const [notes, setNotes] = useState(existingGoal?.notes || "");
+  const [title, setTitle] = useState(existingGoal?.title || "");
+  const [category, setCategory] = useState(existingGoal?.category || "");
+  const [goalType, setGoalType] = useState(existingGoal?.goalType || "daily");
+  const [target, setTarget] = useState(existingGoal?.target || "");
+  const [startDate, setStartDate] = useState(existingGoal?.startDate || "");
+  const [endDate, setEndDate] = useState(existingGoal?.endDate || "");
+  const [color, setColor] = useState(existingGoal?.color || "");
+  const [notes, setNotes] = useState(existingGoal?.notes || "");
 
-
-
-
-
+  const handleCancel = () => {
+    if (setShowForm) {
+      setShowForm(false);
+    } else {
+      navigate(-1);
+    }
+  };
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -96,19 +102,43 @@ if (isEditMode) {
 
 
   return (
-          <Paper   sx={{
-          width: "100%",
-          maxWidth: { sm: 600, md: 800 },
-          mx: "auto",
-          px: { xs: 2, sm: 4 },
-          py: { xs: 2, sm: 3 },
-          mb: 4,
-        }}>
+    <Paper
+      elevation={0}
+      sx={{
+        width: "100%",
+        maxWidth: { sm: 600, md: 800 },
+        mx: "auto",
+        px: { xs: 2, sm: 4 },
+        py: { xs: 2.5, sm: 3.5 },
+        mb: 4,
+        borderRadius: 3,
+        border: `1px solid ${theme.palette.divider}`,
+        boxShadow:
+          theme.palette.mode === "dark"
+            ? "0 18px 40px rgba(0,0,0,0.75)"
+            : "0 10px 30px rgba(15,23,42,0.1)",
+        background:
+          theme.palette.mode === "dark"
+            ? "linear-gradient(135deg, #1b1033 0%, #0b0618 60%, #02010a 100%)"
+            : "linear-gradient(135deg, #fdfbff 0%, #ede7f6 60%, #ffffff 100%)",
+      }}
+    >
       <form onSubmit={handleSubmit}>
-         <h2>{isEditMode ? t("editGoal") : t("addGoal")}</h2>
-        <Stack spacing={3}>
+        <Stack
+          spacing={isMobile ? 2 : 3}
+          sx={{ mb: 1 }}
+        >
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 700,
+              letterSpacing: 0.6,
+              mb: 0.5,
+            }}
+          >
+            {isEditMode ? t("editGoal") : t("addGoal")}
+          </Typography>
           
-          {/* Title */}
           <TextField
             label={t("title")}
             value={title}
@@ -117,7 +147,6 @@ if (isEditMode) {
             fullWidth
           />
 
-          {/* Category */}
           <TextField
             select
             label={t("category")}
@@ -132,7 +161,6 @@ if (isEditMode) {
             <MenuItem value="Personal">{t("personal")}</MenuItem>
           </TextField>
 
-          {/* Goal Type */}
           <FormControl>
             <FormLabel>{t("goalType")}</FormLabel>
             <RadioGroup
@@ -146,7 +174,6 @@ if (isEditMode) {
             </RadioGroup>
           </FormControl>
 
-          {/* Target */}
           <TextField
             label={t("target")}
             type="number"
@@ -156,7 +183,6 @@ if (isEditMode) {
             fullWidth
           />
 
-          {/* Start Date */}
           <TextField
             label="Start Date"
             type="date"
@@ -167,7 +193,6 @@ if (isEditMode) {
             fullWidth
           />
 
-          {/* End Date (optional) */}
           <TextField
             label="End Date (optional)"
             type="date"
@@ -177,7 +202,6 @@ if (isEditMode) {
             fullWidth
           />
 
-          {/* Color */}
           <TextField
             label="Color (optional)"
             type="color"
@@ -187,7 +211,6 @@ if (isEditMode) {
             fullWidth
           />
 
-          {/* Notes */}
           <TextField
             label="Notes (optional)"
             multiline
@@ -196,15 +219,31 @@ if (isEditMode) {
             onChange={(e) => setNotes(e.target.value)}
             fullWidth
           />
-      <Stack direction="row">
-          <Button type="submit" variant="contained" size="large">
-            {isEditMode ? t("editGoal") : t("addGoal")}
-          </Button>
+          <Stack
+            direction={isMobile ? "column" : "row"}
+            spacing={2}
+            justifyContent="flex-end"
+            sx={{ pt: 1 }}
+          >
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="large"
+            >
+              {isEditMode ? t("editGoal") : t("addGoal")}
+            </Button>
 
-          <Button onClick={()=> setShowForm(false)}>
+            <Button
+              type="button"
+              variant="outlined"
+              color="inherit"
+              onClick={handleCancel}
+              size="large"
+            >
               {t("cancel")}
-          </Button>
-      </Stack>    
+            </Button>
+          </Stack>
         </Stack>
       </form>
     </Paper>

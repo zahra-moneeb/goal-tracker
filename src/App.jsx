@@ -4,7 +4,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material"
 import { Route, Routes } from "react-router-dom"
 import { useTranslation } from "react-i18next";
 import Dashboard from "./pages/Dashboard"
-import GoalForm from "./components/GoalForm"
+import GoalForm from "./components/goals/GoalForm"
 import Goals from "./pages/Goals"
 import NewGoal from "./pages/NewGoal"
 import GoalDetails from "./pages/GoalDetails"
@@ -34,10 +34,21 @@ function App() {
     streak: 3,
     current: 5,         // تعداد روزهای طی شده
     target: 30,    
+    archived: false,
     startDate: "2025-01-01",
     endDate: "2025-03-01",
     color: "#6C63FF",
     notes: "Learning React basics",    
+    history: [
+    {
+      date: "2026-03-07",
+      value: 1
+    },
+    {
+      date: "2026-03-06",
+      value: 1
+    }
+  ]
   },
   ];
    const [goals, setGoals] = useState(defaultGoals);
@@ -67,8 +78,8 @@ function App() {
 }, []);
 
 
-  const handleDelete = (id)=>{
-     const confirmDelete = window.confirm("Are you sure you want to delete this goal?");
+  const handleDelete = (id, title)=>{
+     const confirmDelete = window.confirm(`Are you sure you want to delete "${title}" goal?`);
      if (confirmDelete){
        setGoals((prev) => prev.filter((goal) => goal.id !== id))
 
@@ -92,7 +103,6 @@ function App() {
 };
 
     const handleAddGoal = (newGoal) => {
-      console.log("NEW GOAL:", newGoal);
     setGoals((prev) => [...prev, newGoal]);
     setShowForm(false); 
   };
@@ -103,21 +113,15 @@ const handleProgress = (id) => {
     prevGoals.map((goal) => {
       if (goal.id !== id) return goal;
 
-      if (goal.status === "Paused" || goal.status === "Completed") {
-      return goal;
-      }
-      // ❌ اگر قبلاً کامل شده، کاری نکن
-      if (goal.status === "Completed") return goal;
+      if (goal.status === "Paused" || goal.status === "Completed") return goal;
 
       const newCurrent = goal.current + 1;
       const reachedTarget = newCurrent >= goal.target;
-
       const today = new Date().toDateString();
 
       let newStreak = goal.streak || 0;
       let newLastLoggedDate = goal.lastLoggedDate;
 
-      // 🔥 فقط برای daily streak حساب شود
       if (goal.goalType === "daily") {
         const lastDate = goal.lastLoggedDate
           ? new Date(goal.lastLoggedDate).toDateString()
@@ -139,18 +143,30 @@ const handleProgress = (id) => {
         newLastLoggedDate = today;
       }
 
+      // 🔹 History entry حرفه‌ای
+      const newHistoryEntry = {
+        date: new Date().toISOString(),
+        action: `Logged progress for "${goal.title}"`,
+        xp: 20 + (reachedTarget ? 50 : 0),
+        streak: newStreak
+      };
+
+      const updatedHistory = [...(goal.history || []), newHistoryEntry];
+
+
+
       return {
         ...goal,
-        current: reachedTarget ? goal.target : newCurrent, // جلو overflow
+        current: reachedTarget ? goal.target : newCurrent,
         status: reachedTarget ? "Completed" : goal.status,
-        xp: (goal.xp || 0) + 20 + (reachedTarget ? 50 : 0), // 🎁 bonus XP
+        xp: (goal.xp || 0) + newHistoryEntry.xp,
         streak: newStreak,
         lastLoggedDate: newLastLoggedDate,
+        history: updatedHistory
       };
     })
   );
 };
-
 //for toggle passed goals button
 function togglePause(goalId) {
   setGoals(prevGoals =>
@@ -169,6 +185,23 @@ function togglePause(goalId) {
   );
 }
 
+//archive goals and restore goals
+const handleArchive = (id) => {
+  setGoals((prev) =>
+    prev.map((goal) =>
+      goal.id === id ? { ...goal, archived: true } : goal
+    )
+  );
+};
+
+const handleRestore = (id) => {
+  setGoals((prev) =>
+    prev.map((goal) =>
+      goal.id === id ? { ...goal, archived: false, status: "active" } : goal
+    )
+  );
+};
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme = {theme}>
@@ -177,13 +210,13 @@ function togglePause(goalId) {
           <main className="content">
             <Routes>
               <Route element={<MainLayout/>}>
-                <Route path="/" element={<Dashboard/>} />
-                <Route path="/dashboard" element={<Dashboard/>} />
+                <Route path="/" element={<Dashboard goals={goals}/>} />
+                <Route path="/dashboard" element={<Dashboard goals={goals} onDelete={handleDelete} addProgress={handleProgress} onToggle={togglePause } handleArchive={handleArchive} handleRestore={handleRestore}/>} />
                 <Route path="/goals" element={<Goals goals={goals} onDelete={handleDelete} onEdit={handleEdit} onAddGoal={handleAddGoal} setShowForm={setShowForm} showForm={showForm} addProgress={handleProgress} onToggle={togglePause }/>} />
                 <Route path="/goals/edit/:id" element={<GoalForm goals={goals} onEdit={handleEdit} onAddGoal={handleAddGoal} setShowForm={setShowForm}/>}/>
                 <Route path="/goals/new" element={<GoalForm onAddGoal={handleAddGoal} onEdit={handleEdit} setShowForm={setShowForm}/>}/>
                 <Route path="/goals/:id" element={<GoalDetails goals={goals} onDelete={handleDelete} onEdit={handleEdit} addProgress={handleProgress} onToggle={togglePause }/>}/>
-                <Route path="/categories" element={<Categories/>}/>
+                <Route path="/categories" element={<Categories goals={goals} setGoals={setGoals}/>}/>
                 <Route path="/settings" element={<Settings/>}/>
               <Route path="*" element={<NotFound/>}/>
           </Route>

@@ -3,8 +3,8 @@ import { Container, Grid, Typography, Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import GoalDetails from "./GoalDetails";
 
-import GoalList from "../components/GoalList";
-import GoalForm from "../components/GoalForm";
+import GoalList from "../components/goals/GoalList";
+import GoalForm from "../components/goals/GoalForm";
 
 export default function Goals({ goals, onDelete,  setShowForm, showForm , onAddGoal, addProgress, onToggle }) {
   const { t } = useTranslation();
@@ -16,7 +16,6 @@ export default function Goals({ goals, onDelete,  setShowForm, showForm , onAddG
         {t("goals")}
       </Typography>
 
-       
       <Button
         variant="contained"
         sx={{ mb: 3 }}
@@ -25,8 +24,14 @@ export default function Goals({ goals, onDelete,  setShowForm, showForm , onAddG
         {showForm ? t("cancel") : t("addGoal")}
       </Button>
 
-       
-        {showForm && <GoalForm goals={goals} onAddGoal={onAddGoal} onDelete={onDelete} />}
+      {showForm && (
+        <GoalForm
+          goals={goals}
+          onAddGoal={onAddGoal}
+          onDelete={onDelete}
+          setShowForm={setShowForm}
+        />
+      )}
        
       <Grid  spacing={2}>
         <Grid item xs={12}> 
