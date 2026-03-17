@@ -29,8 +29,9 @@ function History({ history }) {
           border: `1px dashed ${theme.palette.divider}`,
           background:
             theme.palette.mode === "dark"
-              ? "rgba(15, 23, 42, 0.8)"
-              : "rgba(248, 250, 252, 0.9)",
+              ? "linear-gradient(135deg, #4a425d 0%, #2e224c 60%, #38316b 100%)"
+              : "linear-gradient(135deg, #a69dba 0%, #f0f0f0 60%, #9c8cb7 100%)",
+          
         }}
       >
         <CardContent>

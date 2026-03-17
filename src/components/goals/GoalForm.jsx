@@ -120,7 +120,7 @@ if (isEditMode) {
         background:
           theme.palette.mode === "dark"
             ? "linear-gradient(135deg, #1b1033 0%, #0b0618 60%, #02010a 100%)"
-            : "linear-gradient(135deg, #fdfbff 0%, #ede7f6 60%, #ffffff 100%)",
+            : "linear-gradient(135deg, #e9d8f9 0%, #ffffff 60%, #c6a2f6 100%)",
       }}
     >
       <form onSubmit={handleSubmit}>
@@ -253,74 +253,3 @@ if (isEditMode) {
 
 
 
-// import React from 'react';
-// import { TextField, Button, Paper, Stack} from '@mui/material';
-
-
-// export default function GoalForm({onAddGoal}) {
-//     const [title, setTitle] = React.useState('');
-//     const [category, setCategory] = React.useState('');
-//     const [deadline, setDeadline] = React.useState('');
-
-    
-
-//     function handleSubmit(e) {
-//         e.preventDefault();
-//         //   const cleanTitle = title.trim();
-//         if (!title.trim()) return 
-
-
-//                 const newGoal = {
-//                 id: Date.now(),
-//                 title: title.trim(),
-//                 category: "General",
-//                 deadline,
-//                 status: "active",
-//                 xp: 0,
-//                 streak: 0,
-//                 current: 0,
-//                 target: 30,
-//                 };
-
-//                 onAddGoal(newGoal);
-
-//                 setTitle("");
-//                 setCategory("");
-//                 setDeadline("");
-
-//     }
-
-//     return(
-//         <Paper sx={{ p: 2, mb: 4 }}>
-//             <form onSubmit={handleSubmit}> 
-//                 <Stack spacing={2}>
-//                     <TextField
-//                         label="Title"
-//                         value={title}
-//                         onChange={(e)=> setTitle(e.target.value)}
-//                         fullWidth
-//                     />
-
-//                      <TextField
-//                         label="Category"
-//                         value={category}
-//                         onChange={(e)=> setCategory(e.target.value)}
-//                         fullWidth
-//                     />
-
-//                      <TextField
-//                         type='date'
-//                         value={deadline}
-//                         onChange={(e)=> setDeadline(e.target.value)}
-//                         fullWidth
-//                     />
-
-//                     <Button type='submit' variant='contained'>
-//                         Add Goal
-//                     </Button>
-//                 </Stack>
-//             </form>
-//         </Paper>
-
-//     )
-// }

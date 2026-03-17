@@ -69,8 +69,14 @@
   "addGoalDescription": "Create a new goal and start tracking progress",
   "viewGoalsDescription": "View all your active and completed goals",
   "view": "View",
-  "allGoals": "All Goals"
- 
+  "allGoals": "All Goals",
+  "settingsDescription": "chang dark and light mood and language by setting section",
+  "code": "404",
+  "notFoundTitle": "Page Not Found",
+  "message": "The page you requested could not be found. Please check the URL or return to the dashboard.",
+  "primaryBtn": "Back to Dashboard",
+  "secondaryBtn": "Contact Support",
+  "dir": "ltr"
 
   
 

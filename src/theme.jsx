@@ -131,10 +131,10 @@ const themeSettings = (mode) => {
             mode: mode,
             ...(mode === "dark" ? {
                 primary: {
-                    main: "#7b5cff",
+                    main: "#8678c0",
                 },
                 secondary: {
-                    main: colors.greenAccent[500],
+                    main: colors.redAccent[200],
                 },
                 neutral: {
                     dark: colors.gray[700],
@@ -142,7 +142,7 @@ const themeSettings = (mode) => {
                     light: colors.gray[100],
                 },
                 background: {
-                    default: "#05020f",
+                    default: "#110f15",
                     paper: "#0b0618",
                 },
                 text: {
@@ -154,7 +154,7 @@ const themeSettings = (mode) => {
                     main: "#5e35b1",
                 },
                 secondary: {
-                    main: colors.greenAccent[500],
+                    main: colors.redAccent[300],
                 },
                 neutral: {
                     dark: colors.gray[700],
@@ -162,8 +162,8 @@ const themeSettings = (mode) => {
                     light: colors.gray[100],
                 },
                 background: {
-                    default: "#faf5ff",
-                    paper: "#ffffff",
+                    default: "#fdfcfe",
+                    paper: "#c8bfcb",
                 },
                 text: {
                     primary: "#1b1033",

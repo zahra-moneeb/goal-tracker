@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 export default function ActiveGoals({ goals, onDelete, addProgress, onToggle }) {
   const { t } = useTranslation();
 
-  // فقط اهداف فعال
   const activeGoals = (goals ?? []).filter(
     (goal) => goal?.status?.toLowerCase() === "active"
   );

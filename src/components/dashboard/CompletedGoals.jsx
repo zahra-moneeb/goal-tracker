@@ -7,10 +7,13 @@ import {
   ListItemIcon,
   ListItemText,
   IconButton,
-  Paper
+  Paper,
+  Tooltip,
+  Divider,
+  Fade
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import ArchiveIcon from "@mui/icons-material/Archive";
+import ArchiveOutlinedIcon from "@mui/icons-material/ArchiveOutlined";
 import { useTranslation } from "react-i18next";
 
 export default function CompletedGoals({ goals, onArchive }) {
@@ -21,37 +24,79 @@ export default function CompletedGoals({ goals, onArchive }) {
   );
 
   return (
-    <Box mt={4}>
-      <Typography variant="h5" mb={2}>
-        {t("completedGoals")} ({completedGoals.length})
-      </Typography>
+    <Box mt={4} mb={2}>
+      <Box display="flex" alignItems="baseline" mb={2} gap={1.5}>
+        <Typography variant="h6" fontWeight="700" color="text.primary">
+          {t("completedGoals")}
+        </Typography>
+        <Typography variant="body2" fontWeight="600" color="text.secondary">
+          {completedGoals.length}
+        </Typography>
+      </Box>
 
       {completedGoals.length === 0 ? (
-        <Typography color="text.secondary">
-          {t("noCompletedGoals")}
-        </Typography>
+        <Paper 
+          variant="outlined" 
+          sx={{ 
+            p: 4, 
+            textAlign: 'center', 
+            borderRadius: 3, 
+            borderStyle: 'dashed',
+            bgcolor: 'transparent'
+          }}
+        >
+          <Typography color="text.secondary" variant="body2">
+            {t("noCompletedGoals")}
+          </Typography>
+        </Paper>
       ) : (
-        <Paper sx={{ borderRadius: 3 }}>
-          <List>
-            {completedGoals.map((goal) => (
-              <ListItem
-                key={goal.id}
-                secondaryAction={
-                  <IconButton
-                    edge="end"
-                    aria-label="archive"
-                    onClick={() => onArchive(goal.id)}
+        <Paper elevation={0} variant="outlined" sx={{ borderRadius: 3, overflow: 'hidden' }}>
+          <List disablePadding>
+            {completedGoals.map((goal, index) => (
+              <React.Fragment key={goal.id}>
+                <Fade in timeout={400}>
+                  <ListItem
+                    sx={{
+                      py: 1.5,
+                      px: 3,
+                      transition: "0.2s",
+                      "&:hover": {
+                        bgcolor: "action.hover",
+                      },
+                    }}
+                    secondaryAction={
+                      <Tooltip title={t("archive")} arrow>
+                        <IconButton
+                          edge="end"
+                          size="small"
+                          onClick={() => onArchive(goal.id)}
+                          sx={{ 
+                            color: 'warning.main',
+                            "&:hover": { bgcolor: 'warning.lighter' } 
+                          }}
+                        >
+                          <ArchiveOutlinedIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    }
                   >
-                    <ArchiveIcon color="warning" />
-                  </IconButton>
-                }
-              >
-                <ListItemIcon>
-                  <CheckCircleIcon color="success" />
-                </ListItemIcon>
+                    <ListItemIcon sx={{ minWidth: 40 }}>
+                      <CheckCircleIcon color="success" fontSize="small" />
+                    </ListItemIcon>
 
-                <ListItemText primary={goal.title} />
-              </ListItem>
+                    <ListItemText 
+                      primary={goal.title} 
+                      primaryTypographyProps={{
+                        variant: 'body2',
+                        fontWeight: 500,
+                        color: 'text.secondary',
+                        sx: { textDecoration: 'line-through' }
+                      }}
+                    />
+                  </ListItem>
+                </Fade>
+                {index < completedGoals.length - 1 && <Divider />}
+              </React.Fragment>
             ))}
           </List>
         </Paper>

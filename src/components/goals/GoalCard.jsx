@@ -60,21 +60,7 @@ export default function GoalCard({goal,  onDelete , addProgress, onToggle, perce
       const { t } = useTranslation();
     
       const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-          {/* Goal Cards */}
     
-        //   <Stack spacing={isMobile ? 1.2 : 2}>
-        //     {filteredGoals.length === 0 ? (
-              
-        //       <Typography textAlign="center" mt={5}>
-        //         {t("noGoals")}
-        //       </Typography>
-        //     ) : (
-    
-        //       filteredGoals.map((goal) => {
-        //         const percent = Math.min(
-        //           (goal.current / goal.target) * 100,
-        //           100
-        //         );
     
                 return (
                   <Card
@@ -87,11 +73,11 @@ export default function GoalCard({goal,  onDelete , addProgress, onToggle, perce
                       position: "relative",
                       border: `1px solid ${theme.palette.divider}`,
                       background: theme.palette.mode === "light"
-                        ? "linear-gradient(135deg, #fdfbff 0%, #ede7f6 60%, #ffffff 100%)"
-                        : "linear-gradient(135deg, #1b1033 0%, #111522 60%, #02010a 100%)",
+                        ? "linear-gradient(135deg, #e9d8f9 0%, #ffffff 60%, #c6a2f6 100%)"
+                        : "linear-gradient(135deg, #1b1b25 0%, #1c1924 60%, #4f4a76 100%)",
                       boxShadow:
                         theme.palette.mode === "light"
-                          ? "0 10px 30px rgba(15, 23, 42, 0.08)"
+                          ? "0 10px 30px rgba(23, 35, 63, 0.08)"
                           : "0 18px 40px rgba(0, 0, 0, 0.65)",
                       transition: "transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease",
                       "&:hover": {
@@ -280,8 +266,6 @@ export default function GoalCard({goal,  onDelete , addProgress, onToggle, perce
                     </CardContent>
                   </Card>
                 );
-        //       })
-        //     )}
-        //   </Stack>   
+     
 
 }
