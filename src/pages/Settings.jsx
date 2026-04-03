@@ -100,7 +100,7 @@ export default function Settings() {
     <Box sx={{ p: { xs: 2, md: 5 }, maxWidth: "1000px", margin: "0 auto", position: "relative" }}>
       
     
-      <Paper 
+      {/* <Paper 
         elevation={0} 
         sx={{ 
           p: 4, 
@@ -146,7 +146,7 @@ export default function Settings() {
             Edit Profile
           </Button>
         </Stack>
-      </Paper>
+      </Paper> */}
 
     
       <Breadcrumbs

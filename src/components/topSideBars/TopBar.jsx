@@ -1,3 +1,4 @@
+
 import React from "react";
 import { AppBar, Toolbar, Typography, useMediaQuery } from "@mui/material";
 import { Box, IconButton, useTheme } from "@mui/material";
@@ -8,12 +9,18 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import PersonIcon from '@mui/icons-material/Person';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import goalIcon from  "../../assets/goalIcon.png";
+import { Logout } from "@mui/icons-material";
 
 
 export default function TopBar({ handleDrawerToggle }) {
+  const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  // const colorMode = useContext(ColorModeContext);
+
+    const { logout} = useAuth();
    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <AppBar
@@ -33,70 +40,51 @@ export default function TopBar({ handleDrawerToggle }) {
         }`,
       }}
     >
-      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Toolbar sx={{ display: "flex", alignItems: "center" }}>
 
-        {isMobile && (
-          <IconButton
-            color="inherit"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-        )}
-        
-  
-        <Typography
-          variant="h6"
-          noWrap
-          sx={{
-            fontWeight: 600,
-            letterSpacing: 0.8,
-          }}
-        >
-          Goal Tracker
-        </Typography>
 
-       
-        <Box display="flex" gap={1.5}>
-          <IconButton
-            color="inherit"
-            sx={{
-              bgcolor:
-                theme.palette.mode === "dark"
-                  ? "rgba(15, 23, 42, 0.32)"
-                  : "rgba(255,255,255,0.8)",
-              "&:hover": {
-                bgcolor:
-                  theme.palette.mode === "dark"
-                    ? "rgba(15, 23, 42, 0.6)"
-                    : "#ffffff",
-              },
-            }}
-          >
-            <NotificationsIcon />
-          </IconButton>
+  <Box display="flex" alignItems="center" gap={1}>
+    {isMobile && (
+      <IconButton
+        color="inherit"
+        edge="start"
+        onClick={handleDrawerToggle}
+      >
+        <MenuIcon />
+      </IconButton>
+    )}
 
-          <IconButton
-            color="inherit"
-            sx={{
-              bgcolor:
-                theme.palette.mode === "dark"
-                  ? "rgba(15, 23, 42, 0.32)"
-                  : "rgba(255,255,255,0.8)",
-              "&:hover": {
-                bgcolor:
-                  theme.palette.mode === "dark"
-                    ? "rgba(15, 23, 42, 0.6)"
-                    : "#ffffff",
-              },
-            }}
-          >
-            <PersonIcon />
-          </IconButton>
-        </Box>
-      </Toolbar>
+    <img
+      src={goalIcon}
+      alt="logo"
+      style={{
+        width: 40,
+        height: 40,
+        borderRadius: "50%",
+        objectFit: "cover"
+      }}
+    />
+  </Box>
+
+ 
+  <Box sx={{ flexGrow: 1 }} />
+
+
+  <Box display="flex" gap={1.5}>
+    <IconButton color="inherit">
+      <NotificationsIcon />
+    </IconButton>
+
+    <IconButton color="inherit" onClick={() => navigate("/profile")}>
+      <PersonIcon />
+    </IconButton>
+
+    <button onClick={logout}>
+      <Typography>Logout</Typography>
+    </button>
+  </Box>
+
+</Toolbar>
     </AppBar>
   );
 };

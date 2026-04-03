@@ -6,12 +6,14 @@ import { useTranslation } from "react-i18next";
 import Dashboard from "./pages/Dashboard"
 import GoalForm from "./components/goals/GoalForm"
 import Goals from "./pages/Goals"
-import NewGoal from "./pages/NewGoal"
 import GoalDetails from "./pages/GoalDetails"
 import Categories from "./pages/Categories"
 import Settings from "./pages/Settings"
 import NotFound from "./pages/NotFound"
 import MainLayout from "./layout/MainLayout"
+import Login from "./pages/Login";
+import Profile from "./pages/Profile"
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -209,7 +211,11 @@ const handleRestore = (id) => {
         <div className="app">
           <main className="content">
             <Routes>
-              <Route element={<MainLayout/>}>
+              <Route path="/login" element={<Login />} />
+
+              <Route element={<ProtectedRoute>
+                                <MainLayout/>  
+                             </ProtectedRoute>}>
                 <Route path="/" element={<Dashboard goals={goals}/>} />
                 <Route path="/dashboard" element={<Dashboard goals={goals} onDelete={handleDelete} addProgress={handleProgress} onToggle={togglePause } handleArchive={handleArchive} handleRestore={handleRestore}/>} />
                 <Route path="/goals" element={<Goals goals={goals} onDelete={handleDelete} onEdit={handleEdit} onAddGoal={handleAddGoal} setShowForm={setShowForm} showForm={showForm} addProgress={handleProgress} onToggle={togglePause }/>} />
@@ -217,6 +223,7 @@ const handleRestore = (id) => {
                 <Route path="/goals/new" element={<GoalForm onAddGoal={handleAddGoal} onEdit={handleEdit} setShowForm={setShowForm}/>}/>
                 <Route path="/goals/:id" element={<GoalDetails goals={goals} onDelete={handleDelete} onEdit={handleEdit} addProgress={handleProgress} onToggle={togglePause }/>}/>
                 <Route path="/categories" element={<Categories goals={goals} setGoals={setGoals}/>}/>
+                <Route path= "/profile" element={<Profile/>}/>
                 <Route path="/settings" element={<Settings/>}/>
               <Route path="*" element={<NotFound/>}/>
           </Route>

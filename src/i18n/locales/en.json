@@ -76,7 +76,19 @@
   "message": "The page you requested could not be found. Please check the URL or return to the dashboard.",
   "primaryBtn": "Back to Dashboard",
   "secondaryBtn": "Contact Support",
-  "dir": "ltr"
+  "dir": "ltr",
+  "ProfileTitle": "Account Profile",
+    "status_active": "Verified Administrator",
+    "account_details": "Account Details",
+    "username": "Full Username",
+    "email": "Primary Email",
+    "password": "System Password",
+    "security_notice_title": "Privacy & Security",
+    "security_notice_desc": "This information is part of your secure profile. Credentials shown here are encrypted at rest. Please ensure you are viewing this in a private environment.",
+ 
+  "common": {
+    "not_provided": "Not provided"
+  }
 
   
 
