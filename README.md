@@ -14,7 +14,7 @@
    ## ▶️ How to Run
 
 1. Clone the repository:
-   git clone https://github.com/your-username/goal-tracker.git
+   git clone https://github.com/zahra-moneeb/goal-tracker.git
 
 2. Go to project folder:
    cd goal-tracker
@@ -42,6 +42,6 @@ This is implemented using CSS direction and conditional styling.
 
 ## 📸 Screenshots
 
+![image alt](https://github.com/zahra-moneeb/goal-tracker/blob/97bd749bb9de36d4e23dd8db9c6cc8ff26e7467f/1.png)
+![image alt](https://github.com/zahra-moneeb/goal-tracker/blob/97bd749bb9de36d4e23dd8db9c6cc8ff26e7467f/2.png)
 
-6. Open in browser:
-   http://localhost:5173
