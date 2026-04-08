@@ -1,16 +1,47 @@
-# React + Vite
+# Goal Tracker Dashboard
+#### A modern and responsive Goal Tracker Dashboard built with React + Vite.This application helps users manage their goals, track progress, and stay motivated using an XP and streak system.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## ✅ Features
 
-Currently, two official plugins are available:
+- Add, edit, and delete goals
+- Track daily progress
+- XP (Experience Points) system
+- Streak tracking (daily consistency)
+- Responsive design (mobile & desktop)
+- RTL and LTR language support
+- Dashboard overview
+  
+   ## ▶️ How to Run
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Clone the repository:
+   git clone https://github.com/zahra-moneeb/goal-tracker.git
 
-## React Compiler
+2. Go to project folder:
+   cd goal-tracker
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+3. Install dependencies:
+   npm install
 
-## Expanding the ESLint configuration
+4. Run the project:
+   npm run dev
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+   ## 🌍 RTL / LTR Support
+
+This project supports both Left-to-Right (LTR) and Right-to-Left (RTL) languages.
+
+- LTR: English
+- RTL: Persian / Arabic
+
+The layout automatically changes direction based on selected language.
+This is implemented using CSS direction and conditional styling.
+
+## 🔥 Streak & XP
+- Complete goal → earn XP
+- Daily activity → increase streak
+- Missing a day → streak reset
+
+## 📸 Screenshots
+
+![image alt](https://github.com/zahra-moneeb/goal-tracker/blob/97bd749bb9de36d4e23dd8db9c6cc8ff26e7467f/1.png)
+![image alt](https://github.com/zahra-moneeb/goal-tracker/blob/97bd749bb9de36d4e23dd8db9c6cc8ff26e7467f/2.png)
+
