@@ -98,57 +98,7 @@ export default function Settings() {
 
   return (
     <Box sx={{ p: { xs: 2, md: 5 }, maxWidth: "1000px", margin: "0 auto", position: "relative" }}>
-      
-    
-      {/* <Paper 
-        elevation={0} 
-        sx={{ 
-          p: 4, 
-          mb: 4, 
-          borderRadius: "16px", 
-          background: isDarkMode 
-            ? "radial-gradient(circle at top, #3c096c 0%, #0b0618 45%, #02010a 100%)"
-            : "radial-gradient(circle at top, #56345c 0%, #dfdce2 45%, #ffffff 100%)",
-          border: `1px solid ${colors.gray[800]}`
-        }}
-      >
-        <Stack direction={{ xs: "column", sm: "row" }} spacing={3} alignItems="center">
-          <Avatar 
-            sx={{ 
-              width: 80, 
-              height: 80, 
-              bgcolor: colors.blueAccent[500],
-              fontSize: "2rem",
-              boxShadow: "0 8px 16px rgba(0,0,0,0.2)"
-            }}
-          >
-            JD
-          </Avatar>
-          <Box sx={{ textAlign: { xs: "center", sm: "left" } }}>
-            <Typography variant="h3" fontWeight="bold" color={colors.gray[100]}>
-              John Doe
-            </Typography>
-            <Typography variant="h6" color={colors.greenAccent[400]}>
-              Administrator
-            </Typography>
-            <Typography variant="body2" color={colors.gray[400]}>
-              john.doe@example.com
-            </Typography>
-          </Box>
-          <Box sx={{ flexGrow: 1 }} />
-          <Button 
-            variant="outlined" 
-            color="inherit" 
-            
-            startIcon={<PersonIcon />}
-            sx={{ borderRadius: "8px", pr: 3 ,borderColor: colors.gray[700] }}
-          >
-            Edit Profile
-          </Button>
-        </Stack>
-      </Paper> */}
 
-    
       <Breadcrumbs
         separator={isRtl ? <NavigateBeforeIcon fontSize="small" /> : <NavigateNextIcon fontSize="small" />}
         sx={{ mb: 3, color: colors.gray[400] }}
